@@ -1,6 +1,6 @@
 # Five-minute demo (on a phone)
 
-Open the live link. If it says the server is waking up, wait 30–60 seconds.
+Open **https://finn-founding-f5fz.vercel.app** on a phone. If it says the server is waking up, wait 30–60 seconds.
 
 1. **Today — a brief with an end.** Pick 24h / 3d / 7d. The funnel shows how much was filed vs how much matters. A
    must-read card may carry a dashed **Your network** line — e.g. a promoter-pledge filing at MTAR naming the contact

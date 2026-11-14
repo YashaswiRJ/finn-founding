@@ -70,7 +70,7 @@
 
 ## 2. Existing codebase inventory (verified by reading source)
 
-**Repository:** `origin = github.com/upsachinkumar12/FINN_ENAM` (visibility UNVERIFIED; it must be public at submission). Branch `main`. 82 tracked files, ~7.2k lines.
+**Repository:** the existing FINN repository (visibility UNVERIFIED at planning time; it must be public at submission). Branch `main`. 82 tracked files, ~7.2k lines.
 
 ```
 README.md  render.yaml  .gitignore (ignores submission/, backend/data/, .env*)
@@ -136,7 +136,7 @@ Legend: ✅ works end-to-end (code evidence) · 🟡 works but not visible in th
 | Auth / users / ownership | ❌ | ❌ | – | – | ❌ none. CORS allows any `*.vercel.app` (config.py:24) |
 | Network (any of it) | ❌ | ❌ | – | – | ❌ |
 | Frontend tests | ❌ | – | – | – | Only `npm run build` + oxlint |
-| Live deployment health | ❓ | ❓ | – | – | README claims finn-enam-smoky.vercel.app + Render `finn-api`. Not probed (planning only) |
+| Live deployment health | ❓ | ❓ | – | – | README claimed a Vercel web app + Render `finn-api`. Not probed (planning only) |
 
 ---
 
@@ -776,7 +776,7 @@ The design system is reused: tokens in `index.css`; `Chip`, `Sheet`, `SectionTit
 
 **Current infrastructure (from repo):**
 - **API on Render**: blueprint `render.yaml`, service `finn-api`, runtime docker, `rootDir: backend`, `plan: free`, health `/api/health`. Env: `ANTHROPIC_API_KEY` (sync:false, dashboard), `CORS_ORIGINS`, `MODEL_CHEAP`, `MODEL_STRONG`, `AUTO_REFRESH_MINUTES=0`, `VECTOR_SEARCH=false`. Disk is ephemeral; it boots from the seed snapshot.
-- **Web on Vercel**: project root `frontend`, `vercel.json` SPA rewrites, env `VITE_API_URL`. The live URL in README: `finn-enam-smoky.vercel.app`.
+- **Web on Vercel**: project root `frontend`, `vercel.json` SPA rewrites, env `VITE_API_URL`. The live URL is listed in the README.
 - **No database service.** SQLite lives inside the container.
 - No cron. No other integrations: Yahoo, BSE, screener.in and Anthropic are outbound only.
 
@@ -1044,7 +1044,7 @@ The ARCHITECTURE.md model-routing section moves to AI_LLM_ARCHITECTURE.md, with 
 | Ethical risk: implying synthetic people know real executives | Misleading | Real people are linked only via *inferred overlap from disclosed facts*, labelled with confidence; synthetic people know only synthetic people |
 | LLM bio extraction error | Wrong overlap | Evidence-substring verification; drops counted and shown |
 | Scope creep in UI | Time | No graph hairball, no CRM editor |
-| Repo history authored under another GitHub account (upsachinkumar12) | Submission attribution | User to confirm the remote/account is theirs before pushing (outside Sonnet's remit) |
+| Repository ownership and visibility | Submission | User to publish from their own public repository before submitting |
 
 ---
 
@@ -1133,7 +1133,7 @@ Planning complete. Implementation not started. Next: Phase 0 (baseline) → Phas
 
 ## Open Questions and Risks
 - Is the live deployment healthy right now? (UNVERIFIED; not probed during planning)
-- Is the GitHub repo public, and is the remote account the submitter's? (UNVERIFIED)
+- Is the GitHub repo public? (UNVERIFIED at planning time)
 - Revert the `frontend/.env.example` change? (needs user OK)
 - Will Phase 1 yield a filed person with a disclosed background? (determines Workflow 1 depth)
 

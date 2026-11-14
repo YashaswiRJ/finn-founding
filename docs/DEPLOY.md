@@ -1,5 +1,28 @@
 # Deploying FINN
 
+## Live deployment
+
+| Piece | URL | Host |
+|---|---|---|
+| Web app | https://finn-founding-f5fz.vercel.app | Vercel (root directory `frontend`, env `VITE_API_URL`) |
+| API | https://finn-api-tz7o.onrender.com | Render free web service from `render.yaml` (Docker) |
+| Repository | https://github.com/YashaswiRJ/finn-founding | GitHub (public); pushing `main` redeploys both |
+
+Verified on 15 November 2026: `/api/health` ok with 25 companies and 14 public profiles; the BSE feed falls back to the
+screener.in index on Render as designed; the digest carries network hints on 16 important filings with 3 reconnect
+suggestions; "Who to call: TMPV" returns Ritika Menon first; CORS allows the Vercel origin; the web app loads Today,
+Feed, Research and Network on a 375 px screen with no console errors, and answers "Who can connect me to Cipla's new
+chief technical operating officer?". The API runs **without** `ANTHROPIC_API_KEY`, so model-written sections are
+labelled off (see "Turning on the AI sections" below).
+
+## Turning on the AI sections
+
+1. Render dashboard → `finn-api` → **Environment** → add `ANTHROPIC_API_KEY` → **Save** (the service redeploys).
+   New research jobs and filing reading then use the model live.
+2. To ship model output in the seed (so the demo shows results cards, the Promise Ledger and bull/bear immediately
+   after every cold start), rebuild the snapshot locally with the key (step 1 below), commit and push.
+
+
 Two pieces: the API (Docker) and the web app (static). Each step that creates an account or pushes code is yours to run.
 
 ## 1. Build a seed snapshot (local)
@@ -41,7 +64,7 @@ Free Render instances sleep after inactivity; the first request after a sleep ta
 ## 3. Web app on Vercel
 
 1. Vercel → **Add New Project** → the repo → root directory `frontend`.
-2. Environment variable `VITE_API_URL` = your Render URL (e.g. `https://finn-api.onrender.com`).
+2. Environment variable `VITE_API_URL` = your Render URL (e.g. `https://finn-api-tz7o.onrender.com`), no trailing slash.
 3. Deploy. `vercel.json` handles client-side routes.
 
 ## Environment variables

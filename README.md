@@ -1,6 +1,13 @@
 # FINN — Financial Investment Agent
 
-**Live demo:** https://finn-enam-smoky.vercel.app (open it on a phone; the API may take 30–60 s to wake on first visit)
+**Yashaswi Raj** · ENAM Holdings — Founding AI Engineer Build Challenge (2027)
+
+- **Live app (open on a phone):** https://finn-founding-f5fz.vercel.app — the free API host sleeps; the first load can take 30–60 s
+- **API:** https://finn-api-tz7o.onrender.com/api/health
+- **Writeup and requirement map:** [docs/SUBMISSION.md](docs/SUBMISSION.md) · **5-minute walkthrough:** [docs/DEMO_GUIDE.md](docs/DEMO_GUIDE.md)
+- **Live demo status:** runs without a model API key, so model-written sections (filing summaries, results cards, the
+  Promise Ledger, the business snapshot and the bull/bear case) are labelled "switched off" there; everything else —
+  including the whole Network — is live. They run when `ANTHROPIC_API_KEY` is set ([docs/DEPLOY.md](docs/DEPLOY.md)).
 
 FINN is a mobile-first agent for an investor holding 20 NSE companies. It reads the exchange feed, prices and the
 companies' own documents so the investor doesn't have to, shows only what matters — and tells them **who in their own

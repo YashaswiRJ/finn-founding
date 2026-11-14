@@ -3,8 +3,8 @@
 ## Project Overview
 FINN, a mobile-first financial investment agent (Push, Pull, Network), upgraded from the ENAM AI Engineer submission to the Founding AI Engineer brief (deadline 15 Nov 2026).
 
-## Current Status (updated 2026-11-14)
-All phases implemented and verified locally on branch `founding-network` (68 backend tests pass; frontend builds; mobile screenshots checked). Nothing pushed or deployed. Remaining user actions are listed under Next Steps.
+## Current Status (updated 2026-11-15)
+Deployed and verified live (web: https://finn-founding-f5fz.vercel.app · API: https://finn-api-tz7o.onrender.com). 68 backend tests pass. Remaining author actions are listed under Next Steps.
 
 ## Major Architectural Decisions
 
@@ -122,19 +122,24 @@ All phases implemented and verified locally on branch `founding-network` (68 bac
 - **Verification:** commands in README/TESTING were executed during this session (pytest, build, lint, cold boot with an empty DATA_DIR). Final: **68 backend tests pass**; frontend builds.
 - **Not done (needs the user):** pushing, deploying, the AI snapshot rebuild, confirming the repo is public, exporting this session's build history, sending the email.
 
+### Phase 9 — Publication, deployment and submission documentation (2026-11-15)
+- **A. Work summary:** Published as a single-commit public repository (`YashaswiRJ/finn-founding`) and deployed: web app https://finn-founding-f5fz.vercel.app, API https://finn-api-tz7o.onrender.com. Submission writeup and requirement map written.
+- **B. Decisions:**
+  - DEC-018: Repository published as one commit authored by Yashaswi Raj, at the author's request; tooling references in planning docs worded neutrally. Model identifiers (`claude-haiku-5-5`, `claude-sonnet-5-5`) remain because the app calls those models and the brief asks which models are used.
+  - DEC-019: The README states the live demo's AI status plainly (no model key on Render yet), rather than implying the model-written sections are visible.
+- **C. Files:** created `docs/SUBMISSION.md` (writeup + brief→app→code map); updated `README.md` (author, live links, status), `docs/DEPLOY.md` (live deployment, verification, enabling AI), `docs/DEMO_GUIDE.md` (live link), planning docs (neutral references); `.gitignore` ignores `.venv*/`.
+- **D. Verification (live):** `/api/health` ok (25 companies, 14 public profiles, `llm_configured: false`); network query, digest (16 filings with network hints, 3 reconnect), who-to-call TMPV; CORS header for the Vercel origin; Playwright at 375 px on Today, Network, Research/TMPV, Feed and a network question — no console errors.
+- **E. Remaining (author):** optionally add `ANTHROPIC_API_KEY` on Render and rebuild the snapshot with it; export the AI build history; send the email (`submission/FOUNDING_EMAIL_DRAFT.txt`).
+
 ## Open Questions and Risks
 - Is the live deployment healthy right now? (UNVERIFIED; not probed during planning)
-- Is the GitHub repo public, and is the remote account the submitter's? (UNVERIFIED)
+- ~~Is the GitHub repo public?~~ Resolved: published as a public repository (`YashaswiRJ/finn-founding`, single commit).
 - ~~Revert the `frontend/.env.example` change?~~ Resolved: reverted with the user's OK (Phase 0).
 - ~~Will a filed person have a disclosed background?~~ Resolved: yes — 8 of the 14 people in current filings have one, read by rules (DEC-011).
 - The deployed demo will lack model-written sections until the snapshot is rebuilt with a key (DEC-010).
 - Render free tier: cold starts of 30–60 s; the first digest after boot computes network views (~1 s).
 
-## Next Steps (user actions, in order)
-1. Optional but recommended: put `ANTHROPIC_API_KEY=...` in `backend/.env`, then
-   `cd backend && source .venv/bin/activate && python scripts/build_snapshot.py --days 30 --research TMPV CIPLA MTARTECH HAL SUZLON`
-   and commit `backend/seed/snapshot.json.gz` (adds AI readings, results cards, the ledger, bull/bear; ~USD 1). The `.venv` in the repo folder is a Windows one; on this Mac create a fresh one first (README "Run it locally").
-2. Review the branch: `git log main..founding-network`, then merge into `main` and push (Render and Vercel redeploy automatically; no dashboard changes needed).
-3. Smoke-test the live link on a phone (docs/DEPLOY.md "Smoke test").
-4. Confirm the GitHub repository is public and belongs to the submitting account.
-5. Export the AI coding sessions for the build history; fill the placeholders in `submission/FOUNDING_EMAIL_DRAFT.txt`; send to assessment@enam.com with the subject "IIT Kanpur – Founding AI Engineer - 2027" before the deadline.
+## Next Steps (author actions)
+1. Optional, recommended: add `ANTHROPIC_API_KEY` on Render (Environment) and rebuild the seed snapshot locally with the key (docs/DEPLOY.md), so the live demo shows results cards, the Promise Ledger and bull/bear.
+2. Export the AI build history.
+3. Send `submission/FOUNDING_EMAIL_DRAFT.txt` to assessment@enam.com, subject "IIT Kanpur – Founding AI Engineer - 2027".
