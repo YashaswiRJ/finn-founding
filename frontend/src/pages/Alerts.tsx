@@ -27,7 +27,7 @@ export function AlertsPage() {
 
   return (
     <div>
-      <h1 className="mb-1 text-xl font-bold tracking-tight">Alerts</h1>
+      <h1 className="mb-1 text-[22px] font-bold uppercase leading-tight">Alerts</h1>
       <p className="mb-3 text-xs text-ink-3">You decide what “unusual” means. FINN checks every <Term k="EOD">end-of-day</Term> close against it — these are not intraday alerts.</p>
 
       {data.error && !data.data ? <ErrorState message={data.error} onRetry={data.reload} />
@@ -112,7 +112,7 @@ function SettingsPanel({ initial, companies, onSaved }: { initial: AlertSettings
   }
 
   return (
-    <div className="divide-y divide-line rounded-xl border border-line bg-surface">
+    <div className="divide-y divide-line rounded-md border border-line bg-surface">
       <div className="space-y-3 p-4">
         <p className="eyebrow">Price & volume</p>
         <div className="flex items-center gap-3"><Toggle on={en.price_up} onChange={(v) => setEn('price_up', v)} label="Price up alerts" />
@@ -138,7 +138,7 @@ function SettingsPanel({ initial, companies, onSaved }: { initial: AlertSettings
             const on = s.announcement_categories.includes(k)
             return (
               <button key={k} onClick={() => toggleCat(k)} aria-pressed={on}
-                className={`h-7 rounded-full border px-2.5 text-xs ${on ? 'border-ink bg-ink text-page' : 'border-line text-ink-2'}`}>{v}</button>
+                className={`h-7 rounded-sm border px-2.5 text-xs ${on ? 'border-ink bg-ink text-page' : 'border-line text-ink-2'}`}>{v}</button>
             )
           })}
         </div>
@@ -154,7 +154,7 @@ function SettingsPanel({ initial, companies, onSaved }: { initial: AlertSettings
             const on = monitored.has(c.symbol)
             return (
               <button key={c.symbol} onClick={() => toggleSymbol(c.symbol)} aria-pressed={on}
-                className={`h-7 rounded-full border px-2.5 text-xs ${on ? 'border-ink-2 text-ink' : 'border-line text-ink-3 line-through'}`}>{c.symbol}</button>
+                className={`h-7 rounded-sm border px-2.5 text-xs ${on ? 'border-ink-2 text-ink' : 'border-line text-ink-3 line-through'}`}>{c.symbol}</button>
             )
           })}
         </div>
@@ -175,7 +175,7 @@ function AlertRow({ a }: { a: Alert }) {
   const Icon = a.kind === 'announcement' ? FileText : a.kind === 'volume' ? Volume2 : Activity
   const [read, setRead] = useState(!!a.acknowledged)
   return (
-    <div className={`rounded-xl border border-line bg-surface px-4 py-3 ${read ? 'opacity-70' : ''}`}>
+    <div className={`rounded-md border border-line bg-surface px-4 py-3 ${read ? 'opacity-70' : ''}`}>
       <div className="flex items-center gap-2 text-xs">
         <Icon size={13} className="text-ink-3" aria-hidden />
         <span className="font-semibold">{a.symbol}</span>

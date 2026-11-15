@@ -24,7 +24,7 @@ export function ProvenanceChip({ p }: { p: Provenance | string }) {
   const inferred = p === 'inferred'
   return (
     <span title={v.title}
-      className={`inline-flex h-[18px] shrink-0 items-center rounded px-1.5 text-[10px] font-medium ${inferred ? 'border border-dashed border-line-strong text-ink-2' : 'bg-surface-2 text-ink-3'}`}>
+      className={`mono inline-flex h-[17px] shrink-0 items-center rounded-sm px-1.5 text-[9.5px] font-semibold uppercase tracking-[0.05em] ${inferred ? 'border border-dashed border-net/60 text-net' : 'border border-line text-ink-3'}`}>
       {v.label}
     </span>
   )
@@ -42,7 +42,7 @@ export function FlagChips({ flags }: { flags: string[] }) {
     <>
       {flags.filter((f) => FLAG[f]).map((f) => (
         <span key={f} title={FLAG[f].title}
-          className={`inline-flex h-[18px] items-center gap-1 rounded px-1.5 text-[10px] font-medium ${FLAG[f].warn ? 'bg-accent-wash text-accent' : 'border border-line text-ink-3'}`}>
+          className={`mono inline-flex h-[17px] items-center gap-1 rounded-sm px-1.5 text-[9.5px] font-semibold uppercase tracking-[0.05em] ${FLAG[f].warn ? 'bg-accent-wash text-accent' : 'border border-line text-ink-3'}`}>
           {FLAG[f].warn && <AlertTriangle size={10} aria-hidden />}{FLAG[f].label}
         </span>
       ))}
@@ -54,17 +54,22 @@ export function FlagChips({ flags }: { flags: string[] }) {
 export function PathLine({ path }: { path: PathNode[] }) {
   const sentence = path.map((n, i) => (i === 0 ? n.name : `${n.edge?.label ?? 'knows'} ${n.name}`)).join(', ')
   return (
-    <ol className="flex flex-wrap items-center gap-x-1 gap-y-0.5 text-xs" aria-label={`Path: ${sentence}`}>
+    <ol className="flex flex-wrap items-center gap-x-1.5 gap-y-1 text-xs" aria-label={`Path: ${sentence}`}>
       {path.map((n, i) => (
-        <li key={n.id + i} className="flex items-center gap-1">
+        <li key={n.id + i} className="flex items-center gap-1.5">
           {n.edge && (
-            <span className="flex items-center gap-1 text-[10px] text-ink-3" aria-hidden>
-              <span className={`w-3 border-t ${n.edge.known ? 'border-ink-3' : 'border-dashed border-ink-3'}`} />
-              <span className={n.edge.known ? '' : 'italic'}>{n.edge.known ? n.edge.label : `inferred ${Math.round((n.edge.confidence ?? 0) * 100)}%`}</span>
-              <span className={`w-3 border-t ${n.edge.known ? 'border-ink-3' : 'border-dashed border-ink-3'}`} />
+            <span className="flex items-center gap-1" aria-hidden>
+              <span className={`w-4 ${n.edge.known ? 'net-line' : 'net-line-inferred'}`} />
+              <span className={`mono text-[9.5px] uppercase tracking-[0.04em] ${n.edge.known ? 'text-ink-3' : 'text-net'}`}>
+                {n.edge.known ? n.edge.label : `${Math.round((n.edge.confidence ?? 0) * 100)}% inferred`}
+              </span>
+              <span className={`w-4 ${n.edge.known ? 'net-line' : 'net-line-inferred'}`} />
             </span>
           )}
-          <span className={`${i === 0 ? 'text-ink-3' : 'font-medium'} ${i === path.length - 1 && i > 0 ? 'text-ink' : ''}`}>{n.name}</span>
+          <span className="flex items-center gap-1">
+            {i > 0 && <span className="net-dot" style={n.edge && !n.edge.known ? { background: 'transparent', border: '1.5px dashed var(--net)', boxShadow: 'none' } : undefined} aria-hidden />}
+            <span className={i === 0 ? 'mono text-[11px] uppercase text-ink-3' : 'font-medium text-ink'}>{n.name}</span>
+          </span>
         </li>
       ))}
     </ol>
@@ -73,11 +78,12 @@ export function PathLine({ path }: { path: PathNode[] }) {
 
 export function PersonHitRow({ h, showQuestions = false, compact = false }: { h: PersonHit; showQuestions?: boolean; compact?: boolean }) {
   return (
-    <li className="rounded-xl border border-line bg-surface">
-      <Link to={`/network/person/${encodeURIComponent(h.person.id)}`} className="block px-3.5 py-3">
+    <li className="relative overflow-hidden rounded-md border border-line bg-surface">
+      <span className="absolute inset-y-0 left-0 w-[2px] bg-net shadow-[0_0_8px_var(--net-glow)]" aria-hidden />
+      <Link to={`/network/person/${encodeURIComponent(h.person.id)}`} className="block py-3 pl-4 pr-3.5 hover:bg-surface-2/50">
         <div className="flex items-center gap-1.5">
           <span className="truncate text-sm font-semibold">{h.person.full_name}</span>
-          <span className="shrink-0 text-[11px] text-ink-3">{h.degree <= 1 ? 'Direct' : '2nd degree'}</span>
+          <span className="mono shrink-0 text-[10px] uppercase tracking-wide text-net">{h.degree <= 1 ? '1st' : '2nd'}</span>
           <span className="ml-auto flex shrink-0 items-center gap-1">
             <ProvenanceChip p={h.person.provenance} />
             <ChevronRight size={15} className="text-ink-3" aria-hidden />
@@ -88,7 +94,7 @@ export function PersonHitRow({ h, showQuestions = false, compact = false }: { h:
         {h.flags.length > 0 && <div className="mt-2 flex flex-wrap gap-1"><FlagChips flags={h.flags} /></div>}
       </Link>
       {showQuestions && h.suggested_questions && h.suggested_questions.length > 0 && (
-        <div className="border-t border-line px-3.5 py-2.5">
+        <div className="border-t border-line bg-page/40 py-2.5 pl-4 pr-3.5">
           <p className="eyebrow">Worth asking them</p>
           <ul className="mt-1 space-y-1 text-xs text-ink-2">
             {h.suggested_questions.map((q) => <li key={q}>· {q}</li>)}
@@ -116,9 +122,9 @@ export function NetworkStrip({ net }: { net: AnnouncementNetwork | null | undefi
   }
   if (!text) return null
   return (
-    <p className="mt-2.5 flex items-start gap-1.5 rounded-lg border border-dashed border-line-strong px-2.5 py-1.5 text-xs text-ink-2">
-      <Users size={13} className="mt-px shrink-0 text-ink-3" aria-hidden />
-      <span><span className="font-semibold text-ink">Your network · </span>{text}</span>
+    <p className="mt-2.5 flex items-start gap-2 rounded-sm border-l-2 border-net bg-net-wash px-2.5 py-1.5 text-xs text-ink-2">
+      <Users size={13} className="mt-px shrink-0 text-net" aria-hidden />
+      <span><span className="mono text-[10px] font-bold uppercase tracking-[0.08em] text-net">◉ Network · </span>{text}</span>
     </p>
   )
 }
@@ -130,7 +136,7 @@ export function NetworkBlock({ net }: { net: AnnouncementNetwork | null | undefi
   if (!people.length && !net.best_placed) return null
   return (
     <div>
-      <p className="eyebrow flex items-center gap-1.5"><NetworkIcon size={12} aria-hidden /> Your network</p>
+      <p className="eyebrow flex items-center gap-1.5 !text-net"><NetworkIcon size={12} aria-hidden /> Your network</p>
       <div className="mt-2 space-y-4">
         {people.map((p) => (
           <div key={p.person_id}>

@@ -126,7 +126,7 @@ export function TodayPage() {
           )}
 
           {d.worth_a_look.length > 0 && (
-            <Link to="/feed" className="mt-4 flex items-center justify-between rounded-xl border border-line bg-surface px-4 py-3 text-sm">
+            <Link to="/feed" className="mt-4 flex items-center justify-between rounded-md border border-line bg-surface px-4 py-3 text-sm">
               <span><span className="font-semibold">{d.worth_a_look.length}</span> worth a look, <span className="font-semibold">{d.buried.length}</span> routine buried</span>
               <ChevronRight size={16} className="text-ink-3" aria-hidden />
             </Link>
@@ -147,12 +147,15 @@ export function TodayPage() {
 }
 
 function Heading({ lastSession }: { lastSession: string | null }) {
-  const today = new Date().toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'long' })
+  const today = new Date().toLocaleDateString('en-IN', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' })
   return (
-    <div className="mb-3">
-      <h1 className="text-xl font-bold tracking-tight">{today}</h1>
-      <p className="text-xs text-ink-3">
-        {lastSession ? <>Prices: close of {new Date(lastSession).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })} (end of day, not live)</> : 'No price data yet'}
+    <div className="mb-3 flex items-end justify-between gap-2">
+      <div>
+        <p className="eyebrow">Daily brief</p>
+        <h1 className="text-[22px] font-bold uppercase leading-tight">{today}</h1>
+      </div>
+      <p className="mono pb-1 text-right text-[10px] uppercase leading-tight tracking-wide text-ink-3">
+        {lastSession ? <>EOD close<br /><span className="text-ink-2">{new Date(lastSession).toLocaleDateString('en-IN', { day: '2-digit', month: 'short' })}</span> · not live</> : 'no prices yet'}
       </p>
     </div>
   )
@@ -161,9 +164,9 @@ function Heading({ lastSession }: { lastSession: string | null }) {
 function Funnel({ d, win, setWin }: { d: Digest; win: Win; setWin: (w: Win) => void }) {
   const c = d.counts
   return (
-    <div className="rounded-xl border border-line bg-surface p-4">
+    <div className="rounded-md border border-line bg-surface p-4">
       <div className="flex items-center justify-between gap-2">
-        <p className="eyebrow">Filings, {WIN_LABEL[win]}</p>
+        <p className="eyebrow">Filings · {WIN_LABEL[win]}</p>
         <Segmented label="Time window" value={win} onChange={setWin}
           options={[{ value: '24', label: '24h' }, { value: '72', label: '3d' }, { value: '168', label: '7d' }]} />
       </div>
@@ -184,8 +187,8 @@ function Funnel({ d, win, setWin }: { d: Digest; win: Win; setWin: (w: Win) => v
 function Stage({ n, label, strong }: { n: number; label: string; strong?: boolean }) {
   return (
     <div className="min-w-0">
-      <div className={`text-2xl font-bold leading-none ${strong && n > 0 ? 'text-accent' : ''}`}>{n}</div>
-      <div className="mt-1 text-[11px] text-ink-3">{label}</div>
+      <div className={`num text-[32px] font-bold leading-none ${strong && n > 0 ? 'text-accent drop-shadow-[0_0_10px_rgba(255,176,32,0.35)]' : ''}`}>{String(n).padStart(2, '0')}</div>
+      <div className="mono mt-1.5 text-[9.5px] uppercase tracking-[0.08em] text-ink-3">{label}</div>
     </div>
   )
 }
@@ -198,7 +201,7 @@ function Clearable({ children, onClear }: { children: React.ReactNode; onClear: 
       {children}
       <div className="mt-1 flex justify-end">
         <button onClick={onClear} aria-label="Mark as read"
-          className="inline-flex h-8 items-center gap-1 rounded-full px-3 text-xs font-medium text-ink-3 hover:bg-surface-2 hover:text-ink">
+          className="inline-flex h-8 items-center gap-1 rounded-sm px-3 text-xs font-medium text-ink-3 hover:bg-surface-2 hover:text-ink">
           <Check size={13} aria-hidden /> Got it
         </button>
       </div>
@@ -209,7 +212,7 @@ function Clearable({ children, onClear }: { children: React.ReactNode; onClear: 
 function DoneState({ d, win, onWiden }: { d: Digest; win: Win; onWiden?: () => void }) {
   const nothing = d.counts.high === 0
   return (
-    <div className="mt-3 rounded-xl border border-line bg-surface p-5 text-center">
+    <div className="mt-3 rounded-md border border-line bg-surface p-5 text-center">
       <Check className="mx-auto text-up" size={22} aria-hidden />
       <p className="mt-2 font-semibold">{nothing ? `Nothing material in the ${WIN_LABEL[win]}` : 'You’re through today’s brief'}</p>
       <p className="mt-1 text-sm text-ink-2">
@@ -235,7 +238,7 @@ function MoveCard({ group, filings }: { group: Alert[]; filings: Announcement[] 
   const day = new Date(a.trade_date).getTime()
   const nearby = filings.filter((f) => f.symbol === a.symbol && Math.abs(new Date(f.published_at).getTime() - day) < 3 * 86400000)
   return (
-    <div className="rounded-xl border border-line bg-surface px-4 py-3">
+    <div className="rounded-md border border-line bg-surface px-4 py-3">
       <div className="flex items-center gap-2 text-xs text-ink-3">
         {rules.has('volume') ? <Volume2 size={13} aria-hidden /> : <Activity size={13} aria-hidden />}
         <span className="font-semibold text-ink">{a.symbol}</span>
@@ -274,14 +277,14 @@ function PortfolioList({ companies, alertSymbols }: { companies: Company[]; aler
   if (!companies.length) return <EmptyState title="Your portfolio is empty">Add companies from Research.</EmptyState>
   const sorted = [...companies].sort((a, b) => Math.abs(b.market?.return_pct ?? 0) - Math.abs(a.market?.return_pct ?? 0))
   return (
-    <ul className="divide-y divide-line overflow-hidden rounded-xl border border-line bg-surface">
+    <ul className="divide-y divide-line overflow-hidden rounded-md border border-line bg-surface">
       {sorted.map((c) => (
         <li key={c.symbol}>
           <Link to={`/research/${c.symbol}`} className="flex items-center gap-3 px-4 py-2.5">
             <div className="min-w-0 flex-1">
               <div className="flex items-center gap-1.5">
                 <span className="text-sm font-semibold">{c.symbol}</span>
-                {alertSymbols.has(c.symbol) && <span className="size-1.5 rounded-full bg-accent-fill" aria-label="Unusual move" />}
+                {alertSymbols.has(c.symbol) && <span className="size-1.5 rounded-sm bg-accent-fill" aria-label="Unusual move" />}
                 {c.high_priority_7d > 0 && <span className="whitespace-nowrap text-[10px] font-semibold text-accent">{c.high_priority_7d} must-read</span>}
               </div>
               <div className="truncate text-xs text-ink-3">{c.name}</div>

@@ -6,7 +6,7 @@ import { categoryLabel, crore, relTime, timeLabel } from '../utils/format'
 import { NetworkBlock, NetworkStrip } from './Network'
 import { Chip, Delta, PriorityTag, Sheet, Term, cleanTitle } from './ui'
 
-const RAIL: Record<string, string> = { HIGH: 'bg-accent-fill', MEDIUM: 'bg-line-strong', LOW: 'bg-transparent' }
+const RAIL: Record<string, string> = { HIGH: 'bg-accent-fill shadow-[0_0_10px_rgba(255,176,32,0.5)]', MEDIUM: 'bg-accent/40', LOW: 'bg-transparent' }
 
 export function AnnouncementCard({ a, compact = false }: { a: Announcement; compact?: boolean }) {
   const [open, setOpen] = useState(false)
@@ -17,11 +17,11 @@ export function AnnouncementCard({ a, compact = false }: { a: Announcement; comp
 
   return (
     <>
-      <article className="relative overflow-hidden rounded-xl border border-line bg-surface">
+      <article className="relative overflow-hidden rounded-md border border-line bg-surface">
         <span className={`absolute inset-y-0 left-0 w-[3px] ${RAIL[a.priority]}`} aria-hidden />
         <button onClick={() => setOpen(true)} className="block w-full px-4 pb-3 pt-3 text-left">
-          <div className="flex items-center gap-1.5 whitespace-nowrap text-xs text-ink-3">
-            <span className="font-semibold text-ink">{a.symbol}</span>
+          <div className="mono flex items-center gap-1.5 whitespace-nowrap text-[10.5px] uppercase tracking-wide text-ink-3">
+            <span className="font-bold text-ink">{a.symbol}</span>
             <span aria-hidden>·</span>
             <span className="min-w-0 truncate">{categoryLabel(a.category)}</span>
             <span aria-hidden>·</span>
@@ -176,7 +176,7 @@ export function ResultsTable({ r }: { r: ResultsCard }) {
       <p className="mt-0.5 text-xs text-ink-3">
         {r.basis ? `${r.basis[0].toUpperCase()}${r.basis.slice(1)}` : 'Basis not stated'}, ₹ crore{r.page ? ` · from page ${r.page} of the filing` : ''}
       </p>
-      <div className="mt-2 overflow-hidden rounded-lg border border-line">
+      <div className="mt-2 overflow-x-auto rounded-lg border border-line">
         <table className="num w-full text-xs">
           <thead className="bg-surface-2 text-ink-3">
             <tr>

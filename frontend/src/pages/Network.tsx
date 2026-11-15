@@ -67,7 +67,8 @@ export function NetworkPage() {
   return (
     <div>
       <div className="mb-3 mt-1">
-        <h1 className="text-xl font-bold tracking-tight">Who can help</h1>
+        <p className="eyebrow !text-net">◉ Your network</p>
+        <h1 className="text-[22px] font-bold uppercase leading-tight">Who can help</h1>
         <p className="mt-0.5 text-sm text-ink-2">Your network, read against the filings and companies you follow.</p>
         {s && (
           <p className="mt-1.5 flex flex-wrap items-center gap-1.5 text-xs text-ink-3">
@@ -78,16 +79,16 @@ export function NetworkPage() {
       </div>
 
       <form onSubmit={(e) => { e.preventDefault(); void ask(q) }}
-        className="flex items-center gap-1.5 rounded-2xl border border-line-strong bg-surface p-1.5">
+        className="flex items-center gap-1.5 rounded-lg border border-line-strong bg-surface p-1.5">
         {SpeechRec && (
           <button type="button" onClick={toggleMic} aria-label={listening ? 'Stop listening' : 'Ask by voice'} aria-pressed={listening}
-            className={`grid size-9 shrink-0 place-items-center rounded-xl ${listening ? 'bg-accent-fill text-[#0b0b0b]' : 'text-ink-2 hover:bg-surface-2'}`}>
+            className={`grid size-9 shrink-0 place-items-center rounded-md ${listening ? 'bg-accent-fill text-[#0b0b0b]' : 'text-ink-2 hover:bg-surface-2'}`}>
             {listening ? <Square size={14} aria-hidden /> : <Mic size={17} aria-hidden />}
           </button>
         )}
         <input value={q} onChange={(e) => setQ(e.target.value)} placeholder={listening ? 'Listening…' : 'Who do I know at… / who knows…'}
           aria-label="Ask your network" maxLength={300} className="h-9 min-w-0 flex-1 bg-transparent px-1 text-[15px] outline-none" />
-        <button disabled={q.trim().length < 2 || busy} aria-label="Ask" className="grid size-9 shrink-0 place-items-center rounded-xl bg-ink text-page disabled:opacity-30">
+        <button disabled={q.trim().length < 2 || busy} aria-label="Ask" className="grid size-9 shrink-0 place-items-center rounded-md bg-ink text-page disabled:opacity-30">
           <ArrowUp size={17} aria-hidden />
         </button>
       </form>
@@ -95,7 +96,7 @@ export function NetworkPage() {
       {!asked && (
         <div className="mt-2 flex gap-1.5 overflow-x-auto pb-1 [scrollbar-width:none]">
           {EXAMPLES.map((e) => (
-            <button key={e} onClick={() => void ask(e)} className="h-8 shrink-0 rounded-full border border-line bg-surface px-3 text-xs text-ink-2">{e}</button>
+            <button key={e} onClick={() => void ask(e)} className="h-8 shrink-0 rounded-sm border border-line bg-surface px-3 text-xs text-ink-2">{e}</button>
           ))}
         </div>
       )}
@@ -146,7 +147,7 @@ export function NetworkPage() {
             {s.themes.map((t) => (
               <button key={t.theme} onClick={() => { setTheme(theme?.label === t.label ? null : { label: t.label, people: t.top }); setAsked(null) }}
                 aria-pressed={theme?.label === t.label}
-                className={`h-8 rounded-full px-3 text-xs font-medium ${theme?.label === t.label ? 'bg-ink text-page' : 'border border-line bg-surface text-ink-2'}`}>
+                className={`h-8 rounded-sm px-3 text-xs font-medium ${theme?.label === t.label ? 'bg-ink text-page' : 'border border-line bg-surface text-ink-2'}`}>
                 {t.label} <span className={theme?.label === t.label ? 'opacity-70' : 'text-ink-3'}>{t.count}</span>
               </button>
             ))}
@@ -171,7 +172,7 @@ function InTheNews({ people }: { people: (PersonBrief & { symbol?: string; publi
   return (
     <>
       <SectionTitle aside={<span className="text-xs text-ink-3">from this month’s filings</span>}>People in the news</SectionTitle>
-      <ul className="divide-y divide-line overflow-hidden rounded-xl border border-line bg-surface">
+      <ul className="divide-y divide-line overflow-hidden rounded-md border border-line bg-surface">
         {people.map((p) => (
           <li key={p.id}>
             <Link to={`/network/person/${encodeURIComponent(p.id)}`} className="flex items-center gap-2.5 px-3.5 py-2.5">
@@ -207,7 +208,7 @@ function Contacts({ total, onAdd }: { total: number; onAdd: () => void }) {
           <input value={filter} onChange={(e) => setFilter(e.target.value)} placeholder="Filter by name or role" aria-label="Filter contacts"
             className="mb-2 h-9 w-full rounded-lg border border-line bg-surface px-3 text-sm outline-none" />
           {list.error ? <ErrorState message={list.error} onRetry={list.reload} /> : !list.data ? <SkeletonRows n={4} h={44} /> : (
-            <ul className="divide-y divide-line overflow-hidden rounded-xl border border-line bg-surface">
+            <ul className="divide-y divide-line overflow-hidden rounded-md border border-line bg-surface">
               {list.data.people.map((p) => (
                 <li key={p.id}>
                   <Link to={`/network/person/${encodeURIComponent(p.id)}`} className="flex items-center gap-2 px-3.5 py-2">

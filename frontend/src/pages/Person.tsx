@@ -47,7 +47,7 @@ export function PersonPage() {
       <Back />
       <header className="mt-1">
         <div className="flex flex-wrap items-center gap-1.5">
-          <h1 className="text-xl font-bold tracking-tight">{p.full_name}</h1>
+          <h1 className="text-[20px] font-bold leading-tight">{p.full_name}</h1>
           <ProvenanceChip p={p.provenance} />
         </div>
         {p.headline && <p className="mt-0.5 text-sm text-ink-2">{p.headline}</p>}
@@ -58,7 +58,7 @@ export function PersonPage() {
       </header>
 
       {p.filing && (
-        <section className="mt-4 rounded-xl border border-line bg-surface p-3.5 text-sm">
+        <section className="mt-4 rounded-md border border-line bg-surface p-3.5 text-sm">
           <p className="eyebrow">Why they’re here</p>
           <p className="mt-1">
             <Link to={`/research/${p.filing.symbol}`} className="font-semibold underline underline-offset-2">{p.filing.company_name ?? p.filing.symbol}</Link>
@@ -75,7 +75,7 @@ export function PersonPage() {
       )}
 
       {p.matches.length > 0 && (
-        <section className="mt-4 rounded-xl bg-accent-wash p-3.5 text-sm">
+        <section className="mt-4 rounded-md bg-accent-wash p-3.5 text-sm">
           <p className="font-semibold">Is this someone you already know?</p>
           {p.matches.map((m) => (
             <div key={m.contact_id} className="mt-2">
@@ -115,7 +115,7 @@ export function PersonPage() {
           <SectionTitle>Board seats</SectionTitle>
           <ul className="flex flex-wrap gap-1.5">
             {boards.filter((b) => b.title === 'Board member').map((b) => (
-              <li key={b.id} className={`rounded-full px-2.5 py-1 text-xs ${b.is_current === 1 ? 'bg-surface-2 text-ink' : 'border border-line text-ink-3'}`}
+              <li key={b.id} className={`rounded-sm px-2.5 py-1 text-xs ${b.is_current === 1 ? 'bg-surface-2 text-ink' : 'border border-line text-ink-3'}`}
                 title={b.evidence ?? undefined}>
                 {b.org_name}{b.is_current === 0 ? ' (past)' : ''}
               </li>

@@ -40,7 +40,7 @@ export function FeedPage() {
   return (
     <div>
       <div className="mb-3 flex items-center justify-between gap-2">
-        <h1 className="text-xl font-bold tracking-tight">Feed</h1>
+        <h1 className="text-[22px] font-bold uppercase leading-tight">Feed</h1>
         <Segmented label="Time window" value={hours} onChange={setHours} options={WINDOWS} />
       </div>
 
@@ -123,7 +123,7 @@ function Buried({ items }: { items: Announcement[] }) {
   }, [items])
   if (!items.length) return null
   return (
-    <div className="mt-6 rounded-xl border border-line bg-surface">
+    <div className="mt-6 rounded-md border border-line bg-surface">
       <button onClick={() => setOpen((o) => !o)} aria-expanded={open} className="flex w-full items-start gap-2 px-4 py-3 text-left">
         <div className="flex-1">
           <p className="eyebrow">Buried · {items.length}</p>

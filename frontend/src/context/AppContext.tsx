@@ -14,11 +14,12 @@ interface AppState {
 
 const Ctx = createContext<AppState | null>(null)
 
+/** Dark-first: FINN is a terminal. Light stays one tap away. */
 function readTheme(): Theme {
   try {
-    return (localStorage.getItem('finn-theme') as Theme) || 'system'
+    return localStorage.getItem('finn-theme') === 'light' ? 'light' : 'dark'
   } catch {
-    return 'system'
+    return 'dark'
   }
 }
 
@@ -30,8 +31,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const el = document.documentElement
-    if (theme === 'system') el.removeAttribute('data-theme')
-    else el.setAttribute('data-theme', theme)
+    el.setAttribute('data-theme', theme === 'light' ? 'light' : 'dark')
     try {
       localStorage.setItem('finn-theme', theme)
     } catch {

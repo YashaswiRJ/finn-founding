@@ -19,9 +19,12 @@ network can help them understand it**.
 | **Pull** | Research on any NSE ticker from its annual report and earnings-call transcripts: snapshot, trajectory, balance sheet, cash quality, a **Promise Ledger** (guided vs delivered), a cited bull/bear case — and **who to call** about the company. |
 | **Network** | Who knows whom, who worked where, who is the go-to person for a theme, and who you haven't spoken to whose old company just filed something. Woven into Push and Pull, and askable in plain words. |
 
-| Today | A filing with your network | Who can get you to the new CTO | Who to call |
+| Today | Ask your network | How to reach the new CTO | Who to call |
 |---|---|---|---|
-| <img src="docs/screenshots/today.png" width="180"> | <img src="docs/screenshots/feed_cipla.png" width="180"> | <img src="docs/screenshots/person_cto.png" width="180"> | <img src="docs/screenshots/research_tmpv.png" width="180"> |
+| <img src="docs/screenshots/today.png" width="180"> | <img src="docs/screenshots/network.png" width="180"> | <img src="docs/screenshots/person_cto.png" width="180"> | <img src="docs/screenshots/research_tmpv.png" width="180"> |
+
+Dark terminal by default (light theme one tap away): amber means "needs your attention", cyan means "your network";
+solid glowing lines are relationships you know, dashed ones are overlaps FINN inferred.
 
 ## The point of view
 

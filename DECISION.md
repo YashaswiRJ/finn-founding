@@ -131,6 +131,13 @@ Deployed and verified live (web: https://finn-founding-f5fz.vercel.app · API: h
 - **D. Verification (live):** `/api/health` ok (25 companies, 14 public profiles, `llm_configured: false`); network query, digest (16 filings with network hints, 3 reconnect), who-to-call TMPV; CORS header for the Vercel origin; Playwright at 375 px on Today, Network, Research/TMPV, Feed and a network question — no console errors.
 - **E. Remaining (author):** optionally add `ANTHROPIC_API_KEY` on Render and rebuild the snapshot with it; export the AI build history; send the email (`submission/FOUNDING_EMAIL_DRAFT.txt`).
 
+### DEC-020: Visual redesign — dark terminal (2026-11-15)
+- Context: the author asked for a significantly different UI and chose "dark terminal" from four directions (terminal, editorial, fintech app, network-first home).
+- Approach: changed through the design system rather than page by page, so no data or behaviour changed: new tokens (dark-first navy/charcoal; light theme kept), monospace for numbers, labels, tickers and headings with sans for sentences, one new colour role (cyan = the network, amber still = needs attention), square terminal tags, a scrolling portfolio ticker under a "FINN ▸ SECTION" header, glowing solid network lines for known relationships and dashed ones for inferred overlaps, sharper corners.
+- Trade-off caught in review: mono digits are wider, which clipped the YoY column of the research snapshot on a 375 px phone; fixed by keeping row labels in sans and tightening padding, and every table container now scrolls instead of clipping. A raw ranking score shown next to names was removed (meaningless to an investor).
+- Files: `frontend/src/index.css`, `layouts/AppShell.tsx`, `context/AppContext.tsx`, `components/ui.tsx`, `components/Network.tsx`, `components/AnnouncementCard.tsx`, page headings in `pages/*`; screenshots in `docs/screenshots/`.
+- Verification: `npm run build` OK, lint unchanged (5 pre-existing warnings); Playwright at 375 px on Today, Feed, Research, Network, Ask, Alerts, a person page and the light theme: no horizontal overflow, no console errors.
+
 ## Open Questions and Risks
 - Is the live deployment healthy right now? (UNVERIFIED; not probed during planning)
 - ~~Is the GitHub repo public?~~ Resolved: published as a public repository (`YashaswiRJ/finn-founding`, single commit).

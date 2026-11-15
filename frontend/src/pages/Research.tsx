@@ -32,15 +32,15 @@ function SearchView() {
 
   return (
     <div>
-      <h1 className="mb-1 text-xl font-bold tracking-tight">Research</h1>
+      <h1 className="mb-1 text-[22px] font-bold uppercase leading-tight">Research</h1>
       <p className="mb-3 text-xs text-ink-3">Any NSE company. FINN reads its annual report and earnings calls — primary sources only, no news or broker views.</p>
       <form onSubmit={(e) => { e.preventDefault(); if (q.trim()) navigate(`/research/${q.trim().toUpperCase()}`) }} className="relative">
         <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-ink-3" aria-hidden />
         <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Company name or NSE symbol" autoFocus
-          aria-label="Search companies" className="h-11 w-full rounded-xl border border-line bg-surface pl-9 pr-3 text-[15px] outline-none focus:border-ink-3" />
+          aria-label="Search companies" className="h-11 w-full rounded-md border border-line bg-surface pl-9 pr-3 text-[15px] outline-none focus:border-ink-3" />
       </form>
       {debounced && (
-        <ul className="mt-2 divide-y divide-line overflow-hidden rounded-xl border border-line bg-surface">
+        <ul className="mt-2 divide-y divide-line overflow-hidden rounded-md border border-line bg-surface">
           {results.loading && !results.data && <li className="px-4 py-3 text-sm text-ink-3">Searching…</li>}
           {results.data?.results.length === 0 && <li className="px-4 py-3 text-sm text-ink-3">No listed company matches “{debounced}”. Try the exact NSE symbol.</li>}
           {results.data?.results.map((r) => (
@@ -57,13 +57,13 @@ function SearchView() {
       <SectionTitle>Research picks</SectionTitle>
       <div className="flex flex-wrap gap-1.5">
         {['HAL', 'BEL', 'ASIANPAINT', 'COALINDIA', 'POWERGRID'].map((s) => (
-          <Link key={s} to={`/research/${s}`} className="h-8 rounded-full border border-line px-3 text-sm leading-8">{s}</Link>
+          <Link key={s} to={`/research/${s}`} className="h-8 rounded-sm border border-line px-3 text-sm leading-8">{s}</Link>
         ))}
       </div>
       <SectionTitle>Your portfolio</SectionTitle>
       <div className="flex flex-wrap gap-1.5">
         {(portfolio.data?.companies ?? []).map((c) => (
-          <Link key={c.symbol} to={`/research/${c.symbol}`} className="h-8 rounded-full bg-surface-2 px-3 text-sm leading-8 text-ink-2">{c.symbol}</Link>
+          <Link key={c.symbol} to={`/research/${c.symbol}`} className="h-8 rounded-sm bg-surface-2 px-3 text-sm leading-8 text-ink-2">{c.symbol}</Link>
         ))}
       </div>
     </div>
@@ -109,7 +109,7 @@ function CompanyView({ symbol }: { symbol: string }) {
       <Header fin={fin} company={r.data.company} onChanged={r.reload} />
       <nav className="sticky top-12 z-10 -mx-4 mb-1 flex gap-1 overflow-x-auto border-b border-line bg-page/95 px-4 py-2 backdrop-blur [scrollbar-width:none]" aria-label="Sections">
         {SECTIONS.map(([id, label]) => (
-          <a key={id} href={`#${id}`} className="h-7 shrink-0 rounded-full bg-surface-2 px-3 text-xs font-medium leading-7 text-ink-2">{label}</a>
+          <a key={id} href={`#${id}`} className="h-7 shrink-0 rounded-sm bg-surface-2 px-3 text-xs font-medium leading-7 text-ink-2">{label}</a>
         ))}
       </nav>
 
@@ -132,7 +132,7 @@ function CompanyView({ symbol }: { symbol: string }) {
       <Balance fin={fin} />
       <Cash fin={fin} />
       <Sources symbol={symbol} docs={r.data.documents} fin={fin} onAdded={r.reload} />
-      <Link to={`/ask?symbol=${symbol}`} className="mt-6 flex items-center gap-2 rounded-xl border border-line bg-surface px-4 py-3 text-sm">
+      <Link to={`/ask?symbol=${symbol}`} className="mt-6 flex items-center gap-2 rounded-md border border-line bg-surface px-4 py-3 text-sm">
         <MessageCircle size={16} className="text-ink-3" aria-hidden /> Ask FINN about {fin.name}
         <ArrowUpRight size={15} className="ml-auto text-ink-3" aria-hidden />
       </Link>
@@ -162,7 +162,7 @@ function Header({ fin, company, onChanged }: { fin: Financials; company: Company
     <header>
       <div className="flex items-start gap-3">
         <div className="min-w-0 flex-1">
-          <h1 className="text-xl font-bold leading-tight tracking-tight">{fin.name}</h1>
+          <h1 className="text-[19px] font-bold leading-tight">{fin.name}</h1>
           <p className="text-xs text-ink-3">{fin.symbol} · {company?.sector ?? 'NSE'} · {fin.basis} figures</p>
         </div>
         <button onClick={toggle} disabled={busy} className="inline-flex h-8 shrink-0 items-center gap-1 rounded-lg border border-line px-2.5 text-xs font-medium">
@@ -189,7 +189,7 @@ function Header({ fin, company, onChanged }: { fin: Financials; company: Company
 function ReadDocsCard({ job, onStart, llm, hasDocs }: { job: ResearchJob | null; onStart: () => void; llm: boolean; hasDocs: boolean }) {
   const running = job?.status === 'running'
   return (
-    <div className="mt-4 rounded-xl border border-line bg-surface p-4">
+    <div className="mt-4 rounded-md border border-line bg-surface p-4">
       {!job || (!running && job.status !== 'done') ? (
         <>
           <p className="text-sm font-semibold">Read the annual report and the last four earnings calls</p>
@@ -212,7 +212,7 @@ function ReadDocsCard({ job, onStart, llm, hasDocs }: { job: ResearchJob | null;
                   {s.state === 'running' ? <Loader2 size={13} className="animate-spin text-accent" aria-hidden />
                     : s.state === 'done' ? <Check size={13} className="text-up" aria-hidden />
                     : s.state === 'failed' ? <X size={13} className="text-down" aria-hidden />
-                    : <span className="block size-[13px] rounded-full border border-line-strong" aria-hidden />}
+                    : <span className="block size-[13px] rounded-sm border border-line-strong" aria-hidden />}
                 </span>
                 <span className={s.state === 'pending' ? 'text-ink-3' : ''}>
                   {s.name}{s.detail && <span className="text-ink-3"> — {s.detail}</span>}
@@ -231,14 +231,14 @@ function Snapshot({ fin }: { fin: Financials }) {
   return (
     <section id="snapshot" className="scroll-mt-28">
       <SectionTitle aside={<span className="text-xs text-ink-3">{sn.period_label} · ₹ crore</span>}>Financial snapshot</SectionTitle>
-      <div className="overflow-hidden rounded-xl border border-line bg-surface">
-        <table className="num w-full whitespace-nowrap text-sm">
+      <div className="overflow-x-auto rounded-md border border-line bg-surface">
+        <table className="num w-full whitespace-nowrap text-[12.5px]">
           <thead className="bg-surface-2 text-[11px] text-ink-3">
             <tr>
               <th className="px-3 py-2 text-left font-medium" />
-              <th className="px-2 py-2 text-right font-medium">{sn.period ?? 'Latest'}</th>
-              <th className="px-2 py-2 text-right font-medium"><Term k="QoQ" /></th>
-              <th className="px-3 py-2 text-right font-medium"><Term k="YoY" /></th>
+              <th className="px-1 py-2 text-right font-medium">{sn.period ?? 'Latest'}</th>
+              <th className="px-1 py-2 text-right font-medium"><Term k="QoQ" /></th>
+              <th className="py-2 pl-1 pr-3 text-right font-medium"><Term k="YoY" /></th>
             </tr>
           </thead>
           <tbody className="divide-y divide-line">
@@ -246,22 +246,22 @@ function Snapshot({ fin }: { fin: Financials }) {
               const isPct = r.metric.endsWith('%')
               return (
                 <tr key={r.metric}>
-                  <td className="whitespace-normal px-3 py-2.5 font-medium">
+                  <td className="w-[38%] whitespace-normal py-2.5 pl-3 pr-1 font-sans font-medium">
                     <Term k={r.metric.replace(' %', '')}>{r.metric}</Term>
                     {r.note && <div className="text-[10px] font-normal leading-tight text-ink-3">{r.note}</div>}
                   </td>
-                  <td className="px-2 py-2.5 text-right">{isPct ? (r.current == null ? '—' : `${r.current.toFixed(2)}%`) : amt(r.current)}</td>
-                  <td className="px-2 py-2.5 text-right">{isPct ? <PpDelta a={r.current} b={r.prev_q} /> : <Delta value={r.qoq} digits={1} />}</td>
-                  <td className="px-3 py-2.5 text-right">{isPct ? <PpDelta a={r.current} b={r.year_ago} /> : <Delta value={r.yoy} digits={1} />}</td>
+                  <td className="px-1 py-2.5 text-right">{isPct ? (r.current == null ? '—' : `${r.current.toFixed(2)}%`) : amt(r.current)}</td>
+                  <td className="px-1 py-2.5 text-right">{isPct ? <PpDelta a={r.current} b={r.prev_q} /> : <Delta value={r.qoq} digits={1} />}</td>
+                  <td className="py-2.5 pl-1 pr-3 text-right">{isPct ? <PpDelta a={r.current} b={r.year_ago} /> : <Delta value={r.yoy} digits={1} />}</td>
                 </tr>
               )
             })}
             {sn.margin && (
               <tr>
-                <td className="px-3 py-2.5 font-medium"><Term k="Margin">{sn.margin.label}</Term></td>
-                <td className="px-2 py-2.5 text-right">{sn.margin.current == null ? '—' : `${sn.margin.current}%`}</td>
-                <td className="px-2 py-2.5 text-right"><PpDelta a={sn.margin.current} b={sn.margin.prev_q} /></td>
-                <td className="px-3 py-2.5 text-right"><PpDelta a={sn.margin.current} b={sn.margin.year_ago} /></td>
+                <td className="w-[38%] whitespace-normal py-2.5 pl-3 pr-1 font-sans font-medium"><Term k="Margin">{sn.margin.label}</Term></td>
+                <td className="px-1 py-2.5 text-right">{sn.margin.current == null ? '—' : `${sn.margin.current}%`}</td>
+                <td className="px-1 py-2.5 text-right"><PpDelta a={sn.margin.current} b={sn.margin.prev_q} /></td>
+                <td className="py-2.5 pl-1 pr-3 text-right"><PpDelta a={sn.margin.current} b={sn.margin.year_ago} /></td>
               </tr>
             )}
           </tbody>
@@ -291,7 +291,7 @@ function Observations({ items }: { items: string[] }) {
   if (!items.length) return null
   return (
     <ul className="mt-2 space-y-1.5 text-sm">
-      {items.map((o) => <li key={o} className="flex gap-2"><span className="mt-2 size-1 shrink-0 rounded-full bg-ink-3" aria-hidden /><span>{o}</span></li>)}
+      {items.map((o) => <li key={o} className="flex gap-2"><span className="mt-2 size-1 shrink-0 rounded-sm bg-ink-3" aria-hidden /><span>{o}</span></li>)}
     </ul>
   )
 }
@@ -308,7 +308,7 @@ function Trajectory({ fin }: { fin: Financials }) {
           ))}
         </div>
       }>Trajectory</SectionTitle>
-      <div className="rounded-xl border border-line bg-surface p-3">
+      <div className="rounded-md border border-line bg-surface p-3">
         <p className="text-xs font-semibold">Revenue <span className="font-normal text-ink-3">₹ crore</span></p>
         <BarSeries data={data} dataKey="revenue" name="Revenue" />
         {!fin.is_bank && (
@@ -356,7 +356,7 @@ function Ledger({ data, conclusion }: { data?: { rows: Promise_[]; counts: Recor
               )
             })}
           </div>
-          {conclusion && <div className="mt-3 rounded-xl border border-line bg-surface p-3 text-sm"><CitedText segments={[{ text: conclusion.text, citations: conclusion.citations }]} /></div>}
+          {conclusion && <div className="mt-3 rounded-md border border-line bg-surface p-3 text-sm"><CitedText segments={[{ text: conclusion.text, citations: conclusion.citations }]} /></div>}
           {data.rows.length === 0 && (
             <p className="mt-3 text-sm text-ink-2">Management made no explicit, quantitative forward-looking commitment in the {data.transcripts_read.length} calls FINN read. Vague optimism isn’t counted as guidance.</p>
           )}
@@ -370,7 +370,7 @@ function Ledger({ data, conclusion }: { data?: { rows: Promise_[]; counts: Recor
                     const I = o.icon
                     return (
                       <li key={p.id}>
-                        <button onClick={() => setSrc(p)} className="block w-full rounded-xl border border-line bg-surface p-3 text-left">
+                        <button onClick={() => setSrc(p)} className="block w-full rounded-md border border-line bg-surface p-3 text-left">
                           <div className="flex items-center gap-2 text-xs">
                             <span className={`inline-flex items-center gap-1 font-semibold ${o.cls}`}><I size={13} aria-hidden />{p.outcome}</span>
                             <span className="text-ink-3">· {p.metric.replace(/_/g, ' ')} · {p.due_period}</span>
@@ -404,7 +404,7 @@ function BullBear({ data }: { data?: NonNullable<CompanyResearch['sections']['bu
       ) : (
         <div className="space-y-3">
           {([['Bull case', data.bull, 'text-up'], ['Bear case', data.bear, 'text-down']] as const).map(([title, pts, cls]) => (
-            <div key={title} className="rounded-xl border border-line bg-surface p-3">
+            <div key={title} className="rounded-md border border-line bg-surface p-3">
               <p className={`text-xs font-semibold ${cls}`}>{title}</p>
               <ul className="mt-2 space-y-2.5 text-sm">
                 {pts.map((p, i) => <li key={i}><CitedText segments={[{ text: p.text, citations: p.citations }]} /></li>)}
@@ -427,7 +427,7 @@ function Balance({ fin }: { fin: Financials }) {
     <section id="balance" className="scroll-mt-28">
       <SectionTitle>Balance sheet</SectionTitle>
       {fin.is_bank ? <p className="text-sm text-ink-2">For a bank, borrowings are raw material rather than leverage; asset quality (NPA) in the snapshot is the better lens.</p> : (
-        <div className="overflow-x-auto rounded-xl border border-line bg-surface">
+        <div className="overflow-x-auto rounded-md border border-line bg-surface">
           <table className="num w-full whitespace-nowrap text-xs">
             <thead className="bg-surface-2 text-ink-3"><tr><th className="px-3 py-2 text-left font-medium">FY</th><th className="px-2 py-2 text-right font-medium">Borrowings</th><th className="px-2 py-2 text-right font-medium"><Term k="D/E" /></th><th className="px-2 py-2 text-right font-medium"><Term k="Working capital">WC days</Term></th><th className="px-3 py-2 text-right font-medium"><Term k="ROCE" /></th></tr></thead>
             <tbody className="divide-y divide-line">
@@ -449,7 +449,7 @@ function Cash({ fin }: { fin: Financials }) {
     <section id="cash" className="scroll-mt-28">
       <SectionTitle>Cash quality</SectionTitle>
       {!fin.is_bank && (
-        <div className="overflow-x-auto rounded-xl border border-line bg-surface">
+        <div className="overflow-x-auto rounded-md border border-line bg-surface">
           <table className="num w-full whitespace-nowrap text-xs">
             <thead className="bg-surface-2 text-ink-3"><tr><th className="px-3 py-2 text-left font-medium">FY</th><th className="px-2 py-2 text-right font-medium"><Term k="PAT" /> ₹cr</th><th className="px-2 py-2 text-right font-medium"><Term k="CFO" /></th><th className="px-2 py-2 text-right font-medium"><Term k="Cash conversion">CFO/PAT</Term></th><th className="px-3 py-2 text-right font-medium"><Term k="FCF" /></th></tr></thead>
             <tbody className="divide-y divide-line">
@@ -496,7 +496,7 @@ function Sources({ symbol, docs, fin, onAdded }: { symbol: string; docs: Company
   return (
     <section id="sources" className="scroll-mt-28">
       <SectionTitle>Sources FINN read</SectionTitle>
-      <ul className="divide-y divide-line overflow-hidden rounded-xl border border-line bg-surface text-sm">
+      <ul className="divide-y divide-line overflow-hidden rounded-md border border-line bg-surface text-sm">
         <li className="flex items-center gap-2 px-3 py-2.5">
           <span className="text-xs text-ink-3">Statements</span>
           <a href={fin.source.url} target="_blank" rel="noreferrer" className="min-w-0 flex-1 truncate">Reported financials (screener.in)</a>
@@ -518,7 +518,7 @@ function Sources({ symbol, docs, fin, onAdded }: { symbol: string; docs: Company
         <button onClick={() => setMode(mode === 'url' ? 'none' : 'url')} className="inline-flex h-8 items-center gap-1.5 rounded-lg border border-line px-3 text-xs"><Link2 size={13} aria-hidden /> Add by link</button>
       </div>
       {mode !== 'none' && (
-        <form onSubmit={submit} className="mt-2 space-y-2 rounded-xl border border-line bg-surface p-3 text-sm">
+        <form onSubmit={submit} className="mt-2 space-y-2 rounded-md border border-line bg-surface p-3 text-sm">
           {mode === 'upload'
             ? <input name="file" type="file" accept="application/pdf" required className="block w-full text-xs" />
             : <input name="url" type="url" required placeholder="https://… (company or exchange PDF)" className="h-9 w-full rounded-md border border-line bg-surface-2 px-2" />}
