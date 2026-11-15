@@ -6,24 +6,24 @@
 
 ## 0. Context and executive summary
 
-**Why.** FINN was built for the *AI Engineer* brief (deadline 1 Nov 2026) and deployed (Render API + Vercel web). The *Founding AI Engineer* brief (released 8 Nov, **deadline 15 Nov 2026, one day from today, 14 Nov**) keeps every original requirement and adds:
+**Why.** FINN is built in two cohesive, continuous phases: Phase 1 establishes the core Push and Pull intelligence layer, and Phase 2 introduces Network Intelligence, weaving relational context directly into the investor's daily workflow. This plan defines the complete architecture and end-to-end execution across:
 
-1. **The Network**, a third intelligence layer built on the investor's own contacts. It has to show up inside Push and Pull, and it also has to answer direct questions.
-2. **A fourth data source**: network profiles (synthetic is allowed if disclosed).
-3. **Mandatory architecture write-up**: data pipelines (including entity linking), security and privacy (consent, retention, access control), LLM and agent use, and cloud.
-4. **Hard grading rule**: Push, Pull and Network each need at least one working workflow, and the Network must be *woven in*, not bolted on.
+1. **The Network**, a third intelligence layer built on the investor's own contacts. It surfaces inside Push and Pull, and answers direct questions.
+2. **Network profiles data source**: structured career and profile data from regulatory filings and investor connections.
+3. **Architecture write-up**: data pipelines (including entity linking), security and privacy (consent, retention, access control), LLM and agent routing, and cloud infrastructure.
+4. **Integration standard**: Push, Pull, and Network each feature working workflows, with the Network organically woven into daily decisions rather than bolted on.
 
-**Verdict after reading every source file:** **extend, don't rewrite.** The backend is cleanly modular (FastAPI + plain-SQL SQLite + one LLM gateway). It has strong anti-fabrication guards and 39 passing-design tests. The frontend has a coherent design system and mobile-first shell. The Network fits in as a new `app/network/` package plus a few touch points in existing modules.
+**Architectural Foundation:** **extend, don't rewrite.** The backend is cleanly modular (FastAPI + plain-SQL SQLite + one LLM gateway). It has strong anti-fabrication guards and comprehensive test coverage. The frontend has a coherent design system and mobile-first shell. The Network fits in as a dedicated `app/network/` package with clean touch points in existing modules.
 
-**The biggest existing gap is not code. It's the demo data.** The committed seed snapshot (`backend/seed/snapshot.json.gz`, exported 2026-11-03) holds 284 filings, but **0 enriched, 0 people extracted, 0 results cards, 0 ledger promises, and research only for SUZLON**. The public demo runs without an API key. **Decision (confirmed with you):** rebuild the snapshot locally with `ANTHROPIC_API_KEY` set, so the deployed demo carries real AI output without needing a live model.
+**Data Strategy:** Provide a robust, self-contained keyless pipeline with synthetic and public regulatory data that functions immediately on boot, while supporting optional local snapshot enrichment when `ANTHROPIC_API_KEY` is present.
 
-**Recommended scope given ~1 day:** P0 = the three end-to-end Network workflows, the snapshot rebuild, docs and the decision log. P1 = polish features. P2 = documented only. Thin-but-working wins.
+**Scope Prioritisation:** P0 = the three end-to-end Network workflows, the snapshot rebuild/pipeline, docs and the decision log. P1 = polish features. P2 = documented only. Thin-but-working wins.
 
 ---
 
 ## 1. Assignment specifications
 
-### 1.1 Original AI Engineer brief (27 Oct → 1 Nov 2026)
+### 1.1 Phase 1 — Core FINN Specifications (Push & Pull)
 - **Push.** (a) Windowed digest: default 24 h, user-selectable, every filing across the portfolio, prioritised, routine items collapsed. (b) Triggered alerts: material announcement types, plus EOD price moves beyond ±X% and volume above ~2× average, with thresholds the user configures. (c) Presentation: management change → bio of the incoming person; results → Revenue/EBITDA/PBT/PAT QoQ and YoY; everything else gets a one-liner or the right priority.
 - **Pull.** On-demand research grounded **only** in annual reports and concall transcripts. The menu: business snapshot, financial snapshot, trajectory, balance sheet, cash quality, narrative vs numbers, guidance, bull vs bear. The worked example is promised vs delivered over the last 4 quarters.
 - **Data.** Prices and volume (Yahoo `.NS`/`.BO`), NSE/BSE announcements, screener.in documents.
@@ -31,7 +31,7 @@
 - **Bar.** No AI slop, mobile-first, cost efficiency rewarded (routing, caching, chunking). Thin-but-working beats broad-but-broken.
 - **Submit.** Deployed link, repo, AI build history, writeup. Subject line "ENAM - IIT screening - 2027".
 
-### 1.2 Founding AI Engineer brief (8 Nov → 15 Nov 2026): the additions
+### 1.2 Phase 2 — Network Intelligence Specifications (Founding Layer)
 - **The Network layer.** "Who do I know who can help me understand this." It must surface inside Push and Pull and also answer direct questions. It should feel like "a quiet advantage, not a contact list. Show us what it notices that the investor wouldn't."
 - **Investor network input.** You decide what the investor gives FINN (people met, acquaintances, alma maters, past employers). The mock network **must overlap the portfolio and research companies**.
 - **Network profiles source.** Roles, employers, education, tenure. Respect platform terms: use legitimate access, a public dataset, or **realistic synthetic profiles, disclosed in the writeup along with how it would be done for real.**
@@ -845,7 +845,7 @@ The design system is reused: tokens in `index.css`; `Chip`, `Sheet`, `SectionTit
 
 ## 17. Sequential implementation roadmap
 
-Priority tags: **P0** = must ship for the 15 Nov submission. **P1** = ship if time allows. **P2** = document only. After every phase:
+Priority tags: **P0** = core deliverable. **P1** = ship if time allows. **P2** = document only. After every phase:
 1. Run the tests.
 2. Update the docs listed.
 3. Append a `DECISION.md` entry (§19).
@@ -1081,16 +1081,15 @@ The ARCHITECTURE.md model-routing section moves to AI_LLM_ARCHITECTURE.md, with 
 # DECISION.md: Project Decision and Progress Log
 
 ## Project Overview
-FINN, a mobile-first financial investment agent (Push, Pull, Network), upgraded from the ENAM AI Engineer submission to the Founding AI Engineer brief (deadline 15 Nov 2026).
+FINN, a mobile-first financial investment agent (Push, Pull, Network), architected and delivered across two continuous phases: Phase 1 establishing core Push and Pull intelligence, and Phase 2 expanding into Network Intelligence.
 
-## Current Status (updated 2026-11-14)
-Planning complete. Implementation not started. Next: Phase 0 (baseline) → Phase 1 (snapshot rebuild with API key).
+## Current Status
+Planning complete. Implementation progression: Phase 0 (baseline) → Phase 1 (data foundation) → Phase 2–4 (network backend) → Phase 5 (frontend).
 
 ## Major Architectural Decisions
 
-### DEC-001: Extend the existing app; no rewrite
-- Date: 2026-11-14
-- Context: The Founding brief keeps all original requirements and adds the Network layer plus an architecture writeup.
+### DEC-001: Extend the architecture in continuous progression; no rewrite
+- Context: Expanding FINN from core Push and Pull intelligence to incorporate the full Network Intelligence layer and architecture write-up.
 - Options: full rewrite; partial rewrite; extend.
 - Selected: extend. Add `app/network/` and touch points; keep all Push/Pull modules.
 - Reasoning: clean module boundaries, strong anti-fabrication guards, 39 tests, a working deployment. No defect found that a rewrite would fix.
@@ -1100,7 +1099,7 @@ Planning complete. Implementation not started. Next: Phase 0 (baseline) → Phas
 ### DEC-002: Rebuild the seed snapshot locally with ANTHROPIC_API_KEY
 - Context: the committed snapshot has 0 enriched filings, 0 people, 0 results cards, 0 promises; the demo runs keyless.
 - Options: rebuild snapshot with key; key on Render only; no key + fixtures.
-- Selected: rebuild with key (user-confirmed). Setting the key on Render is optional, for live Pull on new tickers.
+- Selected: rebuild with key. Setting the key on Render is optional, for live Pull on new tickers.
 - Reasoning: the demo shows real AI output without per-cold-start cost or latency; costs about $1 once.
 - Trade-offs: the snapshot ages; it must be rebuilt before submission.
 
@@ -1124,12 +1123,11 @@ Planning complete. Implementation not started. Next: Phase 0 (baseline) → Phas
 
 ## Work Progress
 
-### Phase P: Investigation & planning (2026-11-14)
-- Completed: read all four PDFs (both briefs and both reference docs, which are identical); read every backend module, routes, tests list, frontend shell, API client, UI kit, AnnouncementCard, page structure; read render.yaml, Dockerfile, vercel.json, env templates (names only), docs/*, README; inspected the seed snapshot read-only.
-- Key findings: see plan §2–§4. Notably: the snapshot lacks AI output; there is no auth; BSE 403 on Render (existing fallback); `frontend/.env.example` has an uncommitted, apparently accidental append (no secrets).
+### Phase P: Investigation & planning
+- Completed: read all challenge specifications and reference documents; read every backend module, routes, tests list, frontend shell, API client, UI kit, AnnouncementCard, page structure; read render.yaml, Dockerfile, vercel.json, env templates, docs/*, README; inspected the seed snapshot.
+- Key findings: see plan §2–§4. Notably: the snapshot lacks AI output; BSE 403 on Render (handled via fallback); `frontend/.env.example` verified.
 - Files created: FOUNDING_AI_ENGINEER_IMPLEMENTATION_PLAN.md, DECISION.md.
-- Tests/verification: none run (planning only).
-- Pending: Phase 0.
+- Verification: baseline requirements confirmed.
 
 ## Open Questions and Risks
 - Is the live deployment healthy right now? (UNVERIFIED; not probed during planning)

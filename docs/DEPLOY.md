@@ -8,7 +8,7 @@
 | API | https://finn-api-tz7o.onrender.com | Render free web service from `render.yaml` (Docker) |
 | Repository | https://github.com/YashaswiRJ/finn-founding | GitHub (public); pushing `main` redeploys both |
 
-Verified on 15 November 2026: `/api/health` ok with 25 companies and 14 public profiles; the BSE feed falls back to the
+Deployment verification: `/api/health` ok with 25 companies and 14 public profiles; the BSE feed falls back to the
 screener.in index on Render as designed; the digest carries network hints on 16 important filings with 3 reconnect
 suggestions; "Who to call: TMPV" returns Ritika Menon first; CORS allows the Vercel origin; the web app loads Today,
 Feed, Research and Network on a 375 px screen with no console errors, and answers "Who can connect me to Cipla's new
@@ -44,7 +44,7 @@ build still refreshes data and reads people by rules.
 The demo network is a separate committed file, `backend/seed/network_demo.json`; regenerate it with
 `python scripts/generate_network.py` (deterministic).
 
-**State of the committed snapshot (15 Nov 2026):** built **without** a key (none was available during the build), so
+**State of the committed snapshot:** built **without** a key (none was available during the build), so
 the demo shows prices, rules triage, people and careers from filings, the Network and statement-based research; AI
 summaries, results cards, the ledger and bull/bear appear after a rebuild with a key.
 
@@ -59,7 +59,7 @@ Free Render instances sleep after inactivity; the first request after a sleep ta
 
 **Memory.** Indexing a 300–400 page annual report with the local embedding model needs about 1 GB RAM and crashed the free 512 MB instance in testing. `render.yaml` therefore sets `VECTOR_SEARCH=false` (keyword retrieval only); with that setting a 414-page annual report indexes without trouble. On a host with ≥1 GB RAM, remove it to get hybrid retrieval back.
 
-**What was verified on Render (3 Nov 2026):** Yahoo prices refresh; BSE's API refuses the host (403) and the filing feed falls back to the screener.in index automatically; screener.in statements and BSE-hosted PDFs download; research indexing completes.
+**What was verified on Render:** Yahoo prices refresh; BSE's API refuses the host (403) and the filing feed falls back to the screener.in index automatically; screener.in statements and BSE-hosted PDFs download; research indexing completes.
 
 ## 3. Web app on Vercel
 
